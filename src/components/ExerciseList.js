@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {findExercises, deleteExercise} from "../services/api";
-import {Link} from "react-router-dom";
 
 const ExerciseList = () => {
     const [exercises, setExercises] = useState([]);

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Redirect} from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {findUsers, createExercise} from "../services/api";
@@ -9,6 +10,7 @@ const Exercise = () => {
     const [description, setDescription] = useState('');
     const [duration, setDuration] = useState(1);
     const [date, setDate] = useState(new Date());
+    const [redirect, setRedirect] = useState(null);
 
     useEffect(() => {
         findUsers().then(data => setUsers([...data]));
@@ -27,8 +29,14 @@ const Exercise = () => {
             setDescription('');
             setDuration(1);
             setDate(new Date());
+
+            setRedirect('/');
         }).catch(err => console.log(err));
     };
+
+    if (redirect) {
+        return <Redirect to={redirect} />;
+    }
 
     return (
         <div>
