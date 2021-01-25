@@ -16,12 +16,12 @@ async function findExercises() {
     return instance.get('/exercises').then(data => data.data);
 }
 
-async function createExercise({ username, description, duration }) {
+async function createExercise(username, description, duration, date) {
     const payload = {
         username,
         description,
         duration,
-        date: new Date(),
+        date,
     };
 
     return instance.post('/exercises', payload).then(data => data.data);
