@@ -25,8 +25,8 @@ app.use(cors());
 app.use(express.json());
 
 // add route endpoints
-app.use('/exercises', exercisesRouter);
-app.use('/users', usersRouter);
+app.use('/api/exercises', exercisesRouter);
+app.use('/api/users', usersRouter);
 
 const connection = mongoose.connection;
 
