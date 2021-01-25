@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from "react";
-import http from "../services/http";
+import {createUser, findUsers} from "../services/api";
 import User from "./User";
 
 const CreateUser = () => {
     const [username, setUsername] = useState('');
     const [users, setUsers] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        http.get('/users').then(data => {
-            setUsers([...data.data]);
-        });
+        findUsers().then(data => setUsers([...data]));
     }, [username]);
 
     const handleSubmit = (event) => {
@@ -20,31 +19,31 @@ const CreateUser = () => {
         }
 
         // post this user to the backend
-        http.post('/users', {username}).then(response => {
-            const user = response.data;
-
-            console.log(user);
-
-            setUsername(''); // clear username
-        }).catch(err => {
-            console.log(err);
-
-            alert('Error: Failed to create user');
-        })
+        createUser(username)
+            .then(() => setUsername(''))
+            .catch(err => setErrorMessage(`Failed to create the user ${username}`))
     };
 
     return (
         <div>
+
             <form onSubmit={handleSubmit}>
                 <input
                     name="username"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) => {
+                        setUsername(e.target.value);
+                        setErrorMessage('');
+                    }}
                     placeholder="Username"
                     className="form-control"
                     required
                 />
             </form>
+
+            {
+                errorMessage ? <p>{errorMessage}</p> : null
+            }
 
             {
                 users.map(user => <User key={user.username} user={user} />)
