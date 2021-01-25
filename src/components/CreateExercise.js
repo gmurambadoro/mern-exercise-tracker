@@ -7,7 +7,7 @@ const Exercise = () => {
     const [users, setUsers] = useState([]);
     const [username, setUsername] = useState('');
     const [description, setDescription] = useState('');
-    const [duration, setDuration] = useState(0);
+    const [duration, setDuration] = useState(1);
     const [date, setDate] = useState(new Date());
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const Exercise = () => {
             // reset the state
             setUsername('');
             setDescription('');
-            setDuration(0);
+            setDuration(1);
             setDate(new Date());
         }).catch(err => console.log(err));
     };
@@ -60,8 +60,6 @@ const Exercise = () => {
                 <div className="form-group">
                     <input
                         required
-                        type="number"
-                        min={0}
                         value={duration}
                         onChange={(e) => setDuration(e.target.value)}
                         className="form-control"
