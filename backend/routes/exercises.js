@@ -15,12 +15,14 @@ const validateExercise = (data) => {
 }
 
 router.route('/')
+    // collection
     .get((req, res) => {
         Exercise.find()
             .then(data => res.json(data))
             .catch(err => res.status(500).json(err))
         ;
     })
+    // create
     .post((req, res) => {
         const data = {
             ...req.body,
@@ -42,6 +44,7 @@ router.route('/')
 ;
 
 router.route('/:id')
+    // read
     .get((req, res) => {
         const { id } = req.params;
 
@@ -49,6 +52,21 @@ router.route('/:id')
             .then((data) => res.json(data))
             .catch(err => res.status(404).json(err));
     })
+    // update
+    .put((req, res) => {
+        const { id } = req.params;
+
+        const { error, value } = validateExercise(req.body);
+
+        if (error) {
+            return res.status(400).json(error);
+        }
+
+        Exercise.findOneAndUpdate(id, {...value})
+            .then(data => res.json(data))
+            .catch(err => res.status(500).json(err));
+    })
+    // delete
     .delete((req, res) => {
         const { id } = req.params;
 
