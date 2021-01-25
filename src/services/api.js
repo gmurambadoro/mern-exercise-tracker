@@ -27,10 +27,15 @@ async function createExercise(username, description, duration, date) {
     return instance.post('/exercises', payload).then(data => data.data);
 }
 
+async function deleteExercise(id) {
+    return instance.delete(`/exercises/${id}`).then(data => data.data);
+}
+
 export {
     findUsers,
     createUser,
     findExercises,
     createExercise,
+    deleteExercise,
 };
 

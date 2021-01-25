@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {findExercises} from "../services/api";
+import {findExercises, deleteExercise} from "../services/api";
+import {Link} from "react-router-dom";
 
 const ExerciseList = () => {
     const [exercises, setExercises] = useState([]);
@@ -8,6 +9,13 @@ const ExerciseList = () => {
         findExercises().then(data => setExercises([...data]));
     }, [exercises]);
 
+    const handleDelete = (id) => {
+        deleteExercise(id).then(exercise => {
+            const newExercises = exercises.filter(e => e._id !== exercise._id);
+
+            setExercises([...newExercises]);
+        });
+    };
 
     const renderExercise = (exercise, index) => {
         const { date, username, description, duration } = exercise;
@@ -19,7 +27,15 @@ const ExerciseList = () => {
                 <td>{username}</td>
                 <td>{description}</td>
                 <td>{duration}</td>
-                <td>&nbsp;</td>
+                <td>
+                    <a href="/" onClick={(e) => {
+                        e.preventDefault();
+
+                        handleDelete(exercise._id);
+                    }}>
+                        Delete
+                    </a>
+                </td>
             </tr>
         );
     };
